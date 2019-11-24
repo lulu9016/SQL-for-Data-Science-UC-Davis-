@@ -1,1 +1,58 @@
+-------------------------------------------------------------------------------------
+1.Using a subquery, find the names of all the tracks for the album "Californication".
+-------------------------------------------------------------------------------------
+select Name
+from Tracks
+where AlbumId = (select AlbumId from Albums where Title = 'Californication')
 
+-------------------------------------------------------------------------------------
+2. Find the total number of invoices for each customer along with the customer's full 
+name, city and email.
+-------------------------------------------------------------------------------------
+select count(InvoiceId), FirstName, LastName, City, Email
+from Customers as c join Invoices as i on c.CustomerId = i.CustomerId
+group by c.CustomerId
+
+-------------------------------------------------------------------------------------
+3.Retrieve the track name, album, artistID, and trackID for all the albums.
+-------------------------------------------------------------------------------------
+select t.Name, t.TrackID, a.Title, a.artistId
+from Tracks as t join Albums as a on t.AlbumId = a.AlbumId
+
+-------------------------------------------------------------------------------------
+4.Retrieve a list with the managers last name, and the last name of the employees who 
+report to him or her.
+-------------------------------------------------------------------------------------
+select M.LastName as manager, E.LastName as employee
+from Employees as E 
+inner join Employees as M on E.ReportsTo = M.EmployeeID
+
+-------------------------------------------------------------------------------------
+5.Find the name and ID of the artists who do not have albums.
+-------------------------------------------------------------------------------------
+select Name AS Artist, Artists.ArtistId, Albums.Title AS Album
+from Artists
+left join Albums on Artists.ArtistId = Albums.ArtistId
+where Album is null
+
+-------------------------------------------------------------------------------------
+6.Use a UNION to create a list of all the employee's and customer's first names and 
+last names ordered by the last name in descending order.
+-------------------------------------------------------------------------------------
+select FirstName, LastName
+from Employees
+UNION
+select FirstName, LastName
+from Customers
+order by LastName Desc
+
+
+-------------------------------------------------------------------------------------
+7.See if there are any customers who have a different city listed in their billing 
+city versus their customer city.
+-------------------------------------------------------------------------------------
+
+select c.CustomerID
+from Customers as c 
+inner join Invoices as i on c.CustomerID = i.CustomerID
+where c.City != i.BillingCity
