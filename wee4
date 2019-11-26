@@ -1,0 +1,35 @@
+1.
+
+select UPPER(CustomerId), 
+UPPER(FirstName)||'  '||UPPER(LastName) as Name, UPPER(Address),
+UPPER(City)||'  '||UPPER(Country)
+from Customers
+
+2.
+select UPPER(FirstName)||'  '||UPPER(LastName) as Name, 
+LOWER(SUBSTR(FirstName, 1, 4) )||LOWER(SUBSTR(LastName, 1, 2)) as new_id
+from Employees
+
+3.
+select FirstName, LastName, 
+DATE(('now') - HireDate) as work_years
+from Employees
+where work_years >= 15
+order by LastName
+
+4.
+select *
+from Customers
+where [some_column] IS NULL
+
+5.
+select City, count(CustomerId) as number_customers
+from Customers
+group by City
+order by number_customers Desc
+
+
+6.
+select FirstName||LastName||InvoiceId as invoice_id
+from Invoices i join Customers c on i.CustomerId = c.CustomerId 
+order by FirstName, LastName, InvoiceId
